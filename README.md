@@ -1,5 +1,27 @@
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
+Nikko Sadural
+
+## Path Planning Model
+
+The path planning model used for this project is a finite state machine that uses a cost function to determine how to change lanes. The states defined in this project are:
+
+1. KL - keep lane:  Maintain speed of car in front and stay in lane.
+2. PLCL - prep lane change left:  Increase speed to left lane speed and stay in lane.
+3. PLCR - prep lane change right:  Increase speed to right lane speed and stay in lane.
+4. LCL - lane change left:  Maintain speed and change lane left.
+5. LCR - lane change right:  Maintain speed and change lane right.
+
+The vehicle follows a trajectory generated using a spline function. The spline is generated using previous path points and future lane waypoints for better continuity. The trajectory consists of up to 50 path points that are calculated using the spline function. Coordinate transformations are used to simplify trajectory calculations. To maintain a desired speed, the trajectory is assumed to be linear such that the number of trajectory points and their placement are easily calculated.
+
+A cost function is used to determine the transition from KL to either PLCL or PLCR. Parameters of the function are:
+
+1. no_car_ahead - 1 if no cars are in the intended lane within 100 m; 0 otherwise.
+2. check_speed_left/right - contains the speed of the car directly ahead in the intended lane.
+
+The cost function rewards if there are no cars ahead in the intended lane. It also rewards for a higher lane speed. 
+
+Once cost functions are calculated for both PLCL and PLCR, they are then compared. The minimum cost function determines whether to LCL or LCR.
    
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2).  
